@@ -47,8 +47,8 @@ class Table
 end 
 
 
-t = Table.new
-t.place_piece(([1, 2]))
-t.remove_piece([1, 2])
-p t.table
+# t = Table.new
+# t.place_piece(([1, 2]))
+# t.remove_piece([1, 2])
+# p t.table
 
