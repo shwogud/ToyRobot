@@ -16,6 +16,7 @@
 # 0  x  x  x  x  x
 #    0  1  2  3  4
 
+require 'rainbow'
 
 class Table
   attr_accessor :table
@@ -24,17 +25,24 @@ class Table
   end
 
   #user inputs (col, row) --> 
-  def place_piece(pos)
+  def add_robot(pos)
     table_col = pos[0]
     table_row = pos[1]
     @table[table_row][table_col] = 'R'
 
   end
 
-  def remove_piece(pos)
+  def remove_robot(pos)
     table_col = pos[0]
     table_row = pos[1]
     @table[table_row][table_col] = 'x'
+  end
+
+  def render
+
+    @table.each do |row|
+      p row 
+    end
   end
 
 
@@ -45,10 +53,4 @@ class Table
   end
   
 end 
-
-
-# t = Table.new
-# t.place_piece(([1, 2]))
-# t.remove_piece([1, 2])
-# p t.table
 
