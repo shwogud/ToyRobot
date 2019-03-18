@@ -10,18 +10,17 @@ class Main
   end
 
   def instructions
-    p 'DIRECTIONS: '
-    p "PLACE should be followed by a indices and direction. ex: PLACE 1,2,EAST"
-    p "MOVE moves the robot forward by one space in its direction. ex: MOVE"
-    p "RIGHT/LEFT changes the robot's direction. ex: RIGHT"
-    p "REPORT tells the location and direction of the robot. ex: REPORT"
-    p ""
-    p "Your very first command must be a PLACE command"
-    p "Type 'EXIT' to exit"
+    puts 'DIRECTIONS: '
+    puts "PLACE should be followed by a indices and direction. ex: PLACE 1,2,EAST"
+    puts "MOVE moves the robot forward by one space in its direction. ex: MOVE"
+    puts "RIGHT/LEFT changes the robot's direction. ex: RIGHT"
+    puts "REPORT tells the location and direction of the robot. ex: REPORT"
+    puts "Your very first command must be a PLACE command"
+    puts "Type 'EXIT' to exit"
   end
 
   def run
-    # self.instructions
+    self.instructions
     
 
     begin
@@ -35,12 +34,9 @@ class Main
       retry if self.read_line_then_perform_command(input).nil?
     end
     
-    # p 'Must start with PLACE' if input[0] != 'place'
-
     while input != ['exit']
       self.read_line_then_perform_command(input)
       self.render 
-      # self.instructions
       p "Please enter a command:"
       input = gets.chomp.downcase.split(/\s+/)
       
@@ -48,27 +44,25 @@ class Main
     puts 'All Done!'
   end
 
-
-  # PLACE 0,0,NORTH MOVE REPORT               Output: 0,1,NORTH
-  # PLACE 0,0,NORTH LEFT REPORT               Output: 0,0,WEST
-  # PLACE 1,2,EAST MOVE MOVE LEFT MOVE REPORT Output: 3,3,NORTH
   def read_line_then_perform_command(input)
-    possible_dirs = ['north', 'south', 'east', 'west']
     arguments = nil
     command = input 
     if input.length == 1 && input[0] == 'place'
       p 'please input indices and direction. ex: 1,2,EAST'
       arguments = gets.chomp.downcase.split(",")
       command = 'place'
-
-      if !arguments[0].to_i.between?(0, 4) || !arguments[1].to_i.between?(0, 4) || !possible_dirs.include?(arguments[3])
-        p 'Must have valid inputs!'
-        return nil
+ 
+      if !@robot.valid_arguments?(arguments)
+        return nil 
       end
       
     elsif input.length == 2 && input[0] == 'place'
       arguments = input[1].downcase.split(",")
       command = 'place'
+
+      if !@robot.valid_arguments?(arguments)
+        return nil 
+      end
 
     else 
       command = input[0]
@@ -84,8 +78,8 @@ class Main
     case command 
       when 'place'
         @table.remove_robot(@robot.position)
-        arguments[1] = (arguments[1].to_i - 4).abs
-        pos = [arguments[0].to_i, arguments[1].to_i]
+        # arguments[1] = (arguments[1].to_i - 4).abs
+        pos = [arguments[0].to_i, (arguments[1].to_i - 4).abs]
         dir = arguments[2].downcase
 
         @robot.set_position(pos)

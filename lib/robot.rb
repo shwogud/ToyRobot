@@ -23,6 +23,14 @@ class Robot
     @position[0] != -1
   end
 
+  def valid_arguments?(args)
+    if !args[0].to_i.between?(0, 4) || !args[1].to_i.between?(0, 4) || !ORIENTATION.include?(args[2])
+      p 'Must have valid inputs!'
+      return false
+    end
+    true
+  end
+
   def set_position(pos)
     @position = [pos[0], pos[1]]
   end
