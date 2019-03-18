@@ -27,47 +27,37 @@ class Robot
     @position = [pos[0], pos[1]]
   end
 
-  #takes a string
   def set_direction(direction)
     @direction = direction
   end
 
   def move
-    
     if self.exist?
-      if @position.first < TABLE_LENGTH && @position.first > 0
-        first_pos = @position[0] + DIRECTION[@direction][0]
-
-      elsif @position.first.zero?
-        first_pos = @direction == 'west' ? 0 : @position.first + DIRECTION[@direction][0]
-
-      elsif @position.first == TABLE_LENGTH
-        first_pos = @direction == 'east' ? TABLE_LENGTH : @position.first + DIRECTION[@direction][0]
-
+      first_pos, second_pos = @position
+      x_direction = DIRECTION[@direction][0]
+      y_direction = DIRECTION[@direction][1]
+      
+      if first_pos < TABLE_LENGTH && first_pos > 0
+        x_coord = @position[0] + x_direction
+      elsif first_pos.zero?
+        x_coord = @direction == 'west' ? 0 : first_pos + x_direction
+      elsif first_pos == TABLE_LENGTH
+        x_coord = @direction == 'east' ? TABLE_LENGTH : first_pos + x_direction
       else
-        first_pos = TABLE_LENGTH
+        x_coord = TABLE_LENGTH
       end
 
-      if @position.last < TABLE_LENGTH && @position.last > 0
-        second_pos = @position.last + DIRECTION[@direction][1]
+      if second_pos < TABLE_LENGTH && second_pos > 0
+        y_coord = second_pos + y_direction
       elsif @position[1].zero?
-        if @direction == 'north'
-          second_pos = 0
-        else
-          second_pos = @position.last + DIRECTION[@direction][1]
-        end
-
-      elsif @position.last == TABLE_LENGTH
-        if @direction == 'south'
-          second_pos = TABLE_LENGTH
-        else
-          second_pos = @position.last + DIRECTION[@direction][1]
-        end
+        y_coord = @direction == 'north' ? 0 : second_pos + y_direction
+      elsif second_pos == TABLE_LENGTH
+        y_coord = @direction == 'south' ? TABLE_LENGTH : second_pos + y_direction
       else
-        second_pos = TABLE_LENGTH
+        y_coord = TABLE_LENGTH
       end
 
-      @position = [first_pos, second_pos]
+      @position = [x_coord, y_coord]
 
     else 
       p 'Robot must exist on Board'
