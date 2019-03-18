@@ -29,10 +29,10 @@ class Main
       input = gets.chomp.downcase.split(/\s+/)
       raise 'the roof'
     rescue
-      p 'Must start with PLACE'
+      p 'Must start with PLACE' if input[0] != 'place'
       return if input[0] == 'exit'
       retry if input[0] != 'place'
-      
+      retry if self.read_line_then_perform_command(input).nil?
     end
     
     # p 'Must start with PLACE' if input[0] != 'place'
@@ -53,12 +53,18 @@ class Main
   # PLACE 0,0,NORTH LEFT REPORT               Output: 0,0,WEST
   # PLACE 1,2,EAST MOVE MOVE LEFT MOVE REPORT Output: 3,3,NORTH
   def read_line_then_perform_command(input)
+    possible_dirs = ['north', 'south', 'east', 'west']
     arguments = nil
     command = input 
     if input.length == 1 && input[0] == 'place'
       p 'please input indices and direction. ex: 1,2,EAST'
       arguments = gets.chomp.downcase.split(",")
       command = 'place'
+
+      if !arguments[0].to_i.between?(0, 4) || !arguments[1].to_i.between?(0, 4) || !possible_dirs.include?(arguments[3])
+        p 'Must have valid inputs!'
+        return nil
+      end
       
     elsif input.length == 2 && input[0] == 'place'
       arguments = input[1].downcase.split(",")
