@@ -2,7 +2,7 @@ require 'rspec'
 require_relative '../lib/robot'
 
 describe 'Robot' do 
-  let(:robot) { Robot.new }
+  subject(:robot) { Robot.new }
 
   describe '#new' do
     it 'creates an instance of Robot' do

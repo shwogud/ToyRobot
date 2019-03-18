@@ -2,7 +2,7 @@ require 'rspec'
 require_relative '../lib/table'
 
 describe 'Table' do 
-  let(:table) { Table.new }
+  subject(:table) { Table.new }
 
   describe '#new' do
     it 'creates an instance of Table' do
