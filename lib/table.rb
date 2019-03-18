@@ -27,30 +27,19 @@ class Table
   #user inputs (col, row) --> 
   def add_robot(pos)
     table_col, table_row = pos
-
     @table[table_row][table_col] = 'R'
 
   end
 
   def remove_robot(pos)
-    table_col = pos[0]
-    table_row = pos[1]
+    table_col, table_row = pos
     @table[table_row][table_col] = 'x'
   end
 
   def render
-
     @table.each do |row|
       p row 
     end
   end
-
-
-
-  #positions will be given as (row, col) 
-  def switch_row_col(pos)
-    pos[0], pos[1] = pos[1], pos[0]
-  end
-  
 end 
 
