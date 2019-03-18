@@ -12,9 +12,6 @@ To install and run application follow these steps.
 3. To run application run `ruby lib/main.rb`
 4. To run Rspec tests run `rspec spec`
 
-## Technologies Used
-  + Ruby 2.3.1
-
 ## Terminal Commands
   + PLACE will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST. The origin (0,0) can be considered to be the SOUTH WEST most corner.
   + MOVE will move the toy robot one unit forward in the direction it is currently facing.
