@@ -78,24 +78,25 @@ class Main
     case command 
       when 'place'
         @table.remove_robot(@robot.position)
-        # arguments[1] = (arguments[1].to_i - 4).abs
         pos = [arguments[0].to_i, (arguments[1].to_i - 4).abs]
         dir = arguments[2].downcase
 
         @robot.set_position(pos)
         @robot.set_direction(dir)
-        @table.add_robot(pos)
+        @table.add_robot(pos, dir)
 
       when 'move'
         @table.remove_robot(@robot.position)
         @robot.move
-        @table.add_robot(@robot.position)
+        @table.add_robot(@robot.position, @robot.direction)
 
       when 'left'
         @robot.left
+        @table.add_robot(@robot.position, @robot.direction)
 
       when 'right'
         @robot.right
+        @table.add_robot(@robot.position, @robot.direction)
 
       when 'report'
         @robot.report
