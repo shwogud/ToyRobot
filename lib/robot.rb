@@ -23,8 +23,8 @@ class Robot
     @position[0] != -1
   end
 
-  def set_position(row, col)
-    @position = [row, col]
+  def set_position(pos)
+    @position = [pos[0], pos[1]]
   end
 
   #takes a string
@@ -35,39 +35,33 @@ class Robot
   def move
     
     if self.exist?
-      if @position[0] < TABLE_LENGTH && @position[0] > 0
+      if @position.first < TABLE_LENGTH && @position.first > 0
         first_pos = @position[0] + DIRECTION[@direction][0]
-      elsif @position[0] == 0
-        if @direction == 'west'
-          first_pos = 0
-        else
-          first_pos = @position[0] + DIRECTION[@direction][0]
-        end
 
-      elsif @position[0] == TABLE_LENGTH
-        if @direction == 'east'
-          first_pos = TABLE_LENGTH
-        else
-          first_pos = @position[0] + DIRECTION[@direction][0]
-        end
+      elsif @position.first.zero?
+        first_pos = @direction == 'west' ? 0 : @position.first + DIRECTION[@direction][0]
+
+      elsif @position.first == TABLE_LENGTH
+        first_pos = @direction == 'east' ? TABLE_LENGTH : @position.first + DIRECTION[@direction][0]
+
       else
         first_pos = TABLE_LENGTH
       end
 
-      if @position[1] < TABLE_LENGTH && @position[1] > 0
-        second_pos = @position[1] + DIRECTION[@direction][1]
-      elsif @position[1] == 0
+      if @position.last < TABLE_LENGTH && @position.last > 0
+        second_pos = @position.last + DIRECTION[@direction][1]
+      elsif @position[1].zero?
         if @direction == 'north'
           second_pos = 0
         else
-          second_pos = @position[1] + DIRECTION[@direction][1]
+          second_pos = @position.last + DIRECTION[@direction][1]
         end
 
-      elsif @position[1] == TABLE_LENGTH
+      elsif @position.last == TABLE_LENGTH
         if @direction == 'south'
           second_pos = TABLE_LENGTH
         else
-          second_pos = @position[1] + DIRECTION[@direction][1]
+          second_pos = @position.last + DIRECTION[@direction][1]
         end
       else
         second_pos = TABLE_LENGTH
@@ -80,19 +74,6 @@ class Robot
     end
   end
 
-
-  def changeOrientation(left_or_right)
-    if left_or_right == 'left'
-      prev_orientation_index = ORIENTATION.index(@direction)
-      curr_orientation_index = (prev_orientation_index - 1) % ORIENTATION.length
-    elsif left_or_right == 'right'
-      prev_orientation_index = ORIENTATION.index(@direction)
-      curr_orientation_index = (prev_orientation_index + 1) % ORIENTATION.length
-    end
-
-    @direction = ORIENTATION[curr_orientation_index]
-  end
-
   def left
     changeOrientation('left');
   end
@@ -101,8 +82,21 @@ class Robot
     changeOrientation('right');
   end
 
+  def changeOrientation(dir)
+    if dir == 'left'
+      prev_orientation_index = ORIENTATION.index(@direction)
+      curr_orientation_index = (prev_orientation_index - 1) % ORIENTATION.length
+    elsif dir == 'right'
+      prev_orientation_index = ORIENTATION.index(@direction)
+      curr_orientation_index = (prev_orientation_index + 1) % ORIENTATION.length
+    end
+
+    @direction = ORIENTATION[curr_orientation_index]
+  end
+
+
   def report
-    p [@position[0], @position[1]]
+    p @position
     p @direction
   end
 end

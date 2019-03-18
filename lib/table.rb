@@ -26,8 +26,8 @@ class Table
 
   #user inputs (col, row) --> 
   def add_robot(pos)
-    table_col = pos[0]
-    table_row = pos[1]
+    table_col, table_row = pos
+
     @table[table_row][table_col] = 'R'
 
   end

@@ -10,26 +10,37 @@ class Main
   end
 
   def instructions
+    p 'DIRECTIONS: '
     p "PLACE should be followed by a indices and direction. ex: PLACE 1,2,EAST"
     p "MOVE moves the robot forward by one space in its direction. ex: MOVE"
     p "RIGHT/LEFT changes the robot's direction. ex: RIGHT"
     p "REPORT tells the location and direction of the robot. ex: REPORT"
     p ""
-    p "Your very command must be a PLACE command"
+    p "Your very first command must be a PLACE command"
     p "Type 'EXIT' to exit"
   end
 
   def run
-    self.instructions
-    p "Please enter a command:"
-    input = gets.chomp.downcase.split(/\s+/)
+    # self.instructions
     
-    return 'Must start with PLACE' if input[0] != 'place'
+
+    begin
+      p "Please enter a command:"
+      input = gets.chomp.downcase.split(/\s+/)
+      raise 'the roof'
+    rescue
+      p 'Must start with PLACE'
+      return if input[0] == 'exit'
+      retry if input[0] != 'place'
+      
+    end
+    
+    # p 'Must start with PLACE' if input[0] != 'place'
 
     while input != ['exit']
       self.read_line_then_perform_command(input)
       self.render 
-      self.instructions
+      # self.instructions
       p "Please enter a command:"
       input = gets.chomp.downcase.split(/\s+/)
       
@@ -57,11 +68,7 @@ class Main
       command = input[0]
     end
 
-
     self.commands(command, arguments)
-    
-    # stuff = line.split(/\s+/)
-    # stuff = ['PLACE', '0,0,NORTH', 'MOVE', 'REPORT']
 
 
   end
@@ -71,10 +78,11 @@ class Main
     case command 
       when 'place'
         @table.remove_robot(@robot.position)
+        arguments[1] = (arguments[1].to_i - 4).abs
         pos = [arguments[0].to_i, arguments[1].to_i]
         dir = arguments[2].downcase
 
-        @robot.set_position(pos[0], pos[1])
+        @robot.set_position(pos)
         @robot.set_direction(dir)
         @table.add_robot(pos)
 
