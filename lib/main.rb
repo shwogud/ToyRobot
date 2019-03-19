@@ -25,11 +25,11 @@ class Main
 
     #taking the first place command
     while true
-      p "Please enter a command:"
+      puts "Please enter a command:"
       input = gets.chomp.downcase.split(/\s+/)
 
       if input[0] == 'exit'
-        p "All Done!"
+        puts "All Done!"
         return
       end
 
@@ -38,17 +38,17 @@ class Main
         self.render
         break
       else
-        p "First command must be PLACE followed by valid indices and direction. ex: PLACE 1,2,EAST"
+        puts "First command must be PLACE followed by valid indices and direction. ex: PLACE 1,2,EAST"
       end
     end
 
     #taking all other commands
     while true
-      p "Please enter a command:"
+      puts "Please enter a command:"
       input = gets.chomp.downcase.split(/\s+/)
 
       if input[0] == 'exit'
-        p "All Done!"
+        puts "All Done!"
         return
       end
 
@@ -57,7 +57,7 @@ class Main
         self.perform_command(input)
         self.render
       else
-        p "Command not Valid. Try Again"
+        puts "Command not Valid. Try Again"
       end
     end
   end
@@ -112,7 +112,7 @@ class Main
         @robot.report
       
       else
-        p 'Invalid Command'
+        puts 'Invalid Command'
     end
   end
 
