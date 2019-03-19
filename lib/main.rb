@@ -65,13 +65,11 @@ class Main
   def command_is_valid?(input)
     if input.length == 1
       valid_commands = ['move', 'left', 'right', 'report'].to_set
-      return true if valid_commands.include?(input[0])
+      return valid_commands.include?(input[0])
     end
 
     if input.length == 2
-      if input[0] == 'place' && @robot.valid_place_arguments(input[1].split(","))
-        return true
-      end
+      return input[0] == 'place' && @robot.valid_place_arguments(input[1].split(","))
     end
 
     false
