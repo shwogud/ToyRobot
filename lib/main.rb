@@ -23,9 +23,9 @@ class Main
     self.instructions
     self.render
 
+    #taking the first place command
     while true
       p "Please enter a command:"
-      
       input = gets.chomp.downcase.split(/\s+/)
 
       if input[0] == 'exit'
