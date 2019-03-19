@@ -1,6 +1,6 @@
 require_relative 'table'
 require_relative 'robot'
-require "byebug"
+require 'set'
 
 class Main
   attr_accessor :table, :robot
@@ -21,57 +21,69 @@ class Main
 
   def run
     self.instructions
-    
+    self.render
 
-    begin
+    while true
       p "Please enter a command:"
-      input = gets.chomp.downcase.split(/\s+/)
-      raise 'the roof'
-    rescue
-      p 'Must start with PLACE' if input[0] != 'place'
-      return if input[0] == 'exit'
-      retry if input[0] != 'place'
-      retry if self.read_line_then_perform_command(input).nil?
-    end
-    
-    while input != ['exit']
-      self.read_line_then_perform_command(input)
-      self.render 
-      p "Please enter a command:"
-      input = gets.chomp.downcase.split(/\s+/)
       
+      input = gets.chomp.downcase.split(/\s+/)
+
+      if input[0] == 'exit'
+        p "All Done!"
+        return
+      end
+
+      if input.length == 2 && (input[0] == 'place' && @robot.valid_place_arguments?(input[1].split(",")))
+        self.perform_command(input)
+        self.render
+        break
+      else
+        p "First command must be PLACE followed by valid indices and direction. ex: PLACE 1,2,EAST"
+      end
     end
-    puts 'All Done!'
+
+    #taking all other commands
+    while true
+      p "Please enter a command:"
+      input = gets.chomp.downcase.split(/\s+/)
+
+      if input[0] == 'exit'
+        p "All Done!"
+        return
+      end
+
+      #check if valid command
+      if self.command_is_valid?(input)
+        self.perform_command(input)
+        self.render
+      else
+        p "Command not Valid. Try Again"
+      end
+    end
   end
 
-  def read_line_then_perform_command(input)
-    arguments = nil
-    command = input 
-    if input.length == 1 && input[0] == 'place'
-      p 'please input indices and direction. ex: 1,2,EAST'
-      arguments = gets.chomp.downcase.split(",")
-      command = 'place'
- 
-      if !@robot.valid_arguments?(arguments)
-        return nil 
-      end
-      
-    elsif input.length == 2 && input[0] == 'place'
-      arguments = input[1].downcase.split(",")
-      command = 'place'
-
-      if !@robot.valid_arguments?(arguments)
-        return nil 
-      end
-
-    else 
-      command = input[0]
+  def command_is_valid?(input)
+    if input.length == 1
+      valid_commands = ['move', 'left', 'right', 'report'].to_set
+      return true if valid_commands.include?(input[0])
     end
+
+    if input.length == 2
+      if input[0] == 'place' && @robot.valid_place_arguments(input[1].split(","))
+        return true
+      end
+    end
+
+    false
+  end
+
+  def perform_command(input)
+    command = input[0]
+    arguments = (command == 'place') ? input[1].split(",") : nil
 
     self.commands(command, arguments)
-
-
   end
+
 
   def commands(command, arguments)
     
@@ -100,8 +112,7 @@ class Main
 
       when 'report'
         @robot.report
-      when 'exit'
-        return 'All Done!'
+      
       else
         p 'Invalid Command'
     end
@@ -110,10 +121,7 @@ class Main
   def render
     @table.render 
   end
-
-
 end
 
 m = Main.new 
-m.render
-m.run 
+m.run

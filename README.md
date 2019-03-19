@@ -18,3 +18,8 @@ To install and run application follow these steps.
   + LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without changing the position of the robot.
   + REPORT will announce the X,Y and orientation of the robot.
 
+## Example Inputs and Outputs
+  + PLACE 0,0,NORTH MOVE REPORT Output: 0,1,NORTH
+  + PLACE 0,0,NORTH LEFT REPORT Output: 0,0,WEST
+  + PLACE 1,2,EAST MOVE MOVE LEFT MOVE REPORT Output: 3,3,NORTH
+

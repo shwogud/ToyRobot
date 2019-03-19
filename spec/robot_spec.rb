@@ -19,8 +19,6 @@ describe 'Robot' do
       robot.position = [1, 1]
 
       expect(robot.exist?).to be true
-
-
     end
   end
 
@@ -28,13 +26,13 @@ describe 'Robot' do
     it 'checks if user inputs valid arguments' do
       
       true_args = ["1", "2", "north"]
-      expect(robot.valid_arguments?(true_args)).to be true
+      expect(robot.valid_place_arguments?(true_args)).to be true
 
       false_args = ["1", "5", "north"]
-      expect(robot.valid_arguments?(false_args)).to be false
+      expect(robot.valid_place_arguments?(false_args)).to be false
 
       false_args1 = ["1", "2", "northy"]
-      expect(robot.valid_arguments?(false_args1)).to be false
+      expect(robot.valid_place_arguments?(false_args1)).to be false
     end
   end
 
