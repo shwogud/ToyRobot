@@ -93,7 +93,7 @@ class Robot
 
 
   def report
-    p @position
-    p @direction
+    puts "The position is [#{@position[0]}, #{4 - @position[1]}]"
+    puts "The direction is #{@direction}"
   end
 end

@@ -69,7 +69,7 @@ class Main
     end
 
     if input.length == 2
-      return input[0] == 'place' && @robot.valid_place_arguments(input[1].split(","))
+      return input[0] == 'place' && @robot.valid_place_arguments?(input[1].split(","))
     end
 
     false
